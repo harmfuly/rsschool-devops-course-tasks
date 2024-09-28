@@ -27,10 +27,15 @@ resource "aws_iam_role" "GithubActionsRole" {
       {
         Effect = "Allow"
         Principal = {
-          Service = "ec2.amazonaws.com" 
+          Federated = "arn:aws:iam::585768141216:oidc-provider/token.actions.githubusercontent.com"
         }
         Action = "sts:AssumeRole"
-      },
+         Condition = {
+          StringEquals = {
+            "token.actions.githubusercontent.com:sub" = "repo:harmfuly/rsschool-devops-course-tasks:ref:refs/heads/task_1"
+          }
+      }
+      }
     ]
   })
 }
