@@ -34,7 +34,7 @@ resource "aws_iam_role" "GithubActionsRole" {
           StringEquals = {
             "token.actions.githubusercontent.com:sub" = "repo:harmfuly/rsschool-devops-course-tasks:ref:refs/heads/task_1"
           }
-      }
+        }
       }
     ]
   })
