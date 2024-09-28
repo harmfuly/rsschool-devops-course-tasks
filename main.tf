@@ -7,10 +7,10 @@ terraform {
   }
 
   backend "s3" {
-    bucket         	   = "rss-task-bucket"
-    key                = "state/terraform.tfstate"
-    region         	   = "eu-north-1"
-    encrypt        	   = true
+    bucket         = "rss-task-bucket"
+    key            = "state/terraform.tfstate"
+    region         = "eu-north-1"
+    encrypt        = true
     dynamodb_table = "rss-table"
   }
 }
@@ -20,7 +20,7 @@ provider "aws" {
 }
 
 resource "aws_iam_role" "GithubActionsRole" {
-  name               = "GithubActionsRole"
+  name = "GithubActionsRole"
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
@@ -30,7 +30,7 @@ resource "aws_iam_role" "GithubActionsRole" {
           Federated = "arn:aws:iam::585768141216:oidc-provider/token.actions.githubusercontent.com"
         }
         Action = "sts:AssumeRole"
-         Condition = {
+        Condition = {
           StringEquals = {
             "token.actions.githubusercontent.com:sub" = "repo:harmfuly/rsschool-devops-course-tasks:ref:refs/heads/task_1"
           }
@@ -41,8 +41,8 @@ resource "aws_iam_role" "GithubActionsRole" {
 }
 
 resource "aws_iam_policy" "GithubActionsPolicy" {
-  name        = "GithubActionsPolicy"
-  
+  name = "GithubActionsPolicy"
+
   policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
