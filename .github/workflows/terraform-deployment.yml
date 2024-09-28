@@ -2,10 +2,11 @@ name: Terraform Deployment
 
 on:
   pull_request:
-    branches: task_1
+    branches: 
+      - main
   push:
     branches:
-      - dev
+      - main
 
 jobs:
   terraform-check:
