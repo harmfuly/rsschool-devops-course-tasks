@@ -2,7 +2,12 @@
 
 ## File Structure
 
-` project-root/ ├── main.tf # Main configuration for Terraform ├── .github/ │ └── workflows/ │ └── terraform-deployment.yml # GitHub Actions workflow for Terraform`
+<pre>
+├── main.tf # Main configuration for Terraform
+├── .github/
+     │ └── workflows/ │ 
+              └── terraform-deployment.yml # GitHub Actions workflow for Terraform
+</pre>
 
 
 ## Directory & File Overview
