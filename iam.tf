@@ -10,8 +10,7 @@ resource "aws_iam_openid_connect_provider" "github_oidc" {
 }
 
 resource "aws_iam_role" "GithubActionsRole" {
-  name = "GithubActionsRole"
-
+  name               = "GithubActionsRole"
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
@@ -23,7 +22,7 @@ resource "aws_iam_role" "GithubActionsRole" {
         Action = "sts:AssumeRoleWithWebIdentity"
         Condition = {
           StringEquals = {
-            "token.actions.githubusercontent.com:sub" = var.github_repo
+            "token.actions.githubusercontent.com:sub" = "repo:harmfuly/rsschool-devops-course-tasks:ref:refs/heads/task_1"
           }
         }
       }
@@ -31,7 +30,25 @@ resource "aws_iam_role" "GithubActionsRole" {
   })
 }
 
-resource "aws_iam_role_policy_attachment" "attach_eventbridge_policy" {
-  role       = aws_iam_role.GithubActionsRole.name
-  policy_arn = "arn:aws:iam::aws:policy/AmazonEventBridgeFullAccess"
+resource "aws_iam_role_policy" "GithubActionsPolicy" {
+  name   = "GithubActionsPolicy"
+  role   = aws_iam_role.GithubActionsRole.id
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Action = [
+          "dynamodb:PutItem",
+          "dynamodb:GetItem",
+          "dynamodb:DeleteItem",
+          "dynamodb:UpdateItem",
+          "dynamodb:Scan",
+          "dynamodb:Query"
+        ]
+        Resource = "arn:aws:dynamodb:eu-north-1:585768141216:table/rss-table"
+      }
+    ]
+  })
 }
