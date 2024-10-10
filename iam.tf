@@ -11,7 +11,7 @@ resource "aws_iam_openid_connect_provider" "github_oidc" {
 
 resource "aws_iam_role" "GithubActionsRole" {
   name = "GithubActionsRole"
-  
+
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
