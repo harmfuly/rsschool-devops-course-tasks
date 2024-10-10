@@ -1,11 +1,11 @@
 provider "aws" {
-  region = var.region
+  alias  = "secondary"
+  region = "us-west-2"
 }
 
-# Создание GitHub OIDC провайдера
 resource "aws_iam_openid_connect_provider" "github_oidc" {
   client_id_list  = ["sts.amazonaws.com"]
-  thumbprint_list = ["<thumbprint_value>"]  # Нужно указать правильный thumbprint
+  thumbprint_list = ["74F3A68F16524F15424927704C9506F55A9316BD"]
   url             = "https://token.actions.githubusercontent.com"
 }
 
@@ -31,7 +31,6 @@ resource "aws_iam_role" "GithubActionsRole" {
   })
 }
 
-# Использование Amazon Managed Policy для полного доступа к EventBridge
 resource "aws_iam_role_policy_attachment" "attach_eventbridge_policy" {
   role       = aws_iam_role.GithubActionsRole.name
   policy_arn = "arn:aws:iam::aws:policy/AmazonEventBridgeFullAccess"

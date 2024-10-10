@@ -7,10 +7,10 @@ terraform {
   }
 
   backend "s3" {
-    bucket         = var.bucket_name
+    bucket         = "rss-task-bucket"
     key            = "state/terraform.tfstate"
-    region         = var.region
+    region         = "eu-north-1"
     encrypt        = true
-    dynamodb_table = var.dynamodb_table_name
+    dynamodb_table = "rss-table"
   }
 }
