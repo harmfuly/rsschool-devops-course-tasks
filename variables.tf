@@ -15,5 +15,6 @@ variable "private_subnet_cidrs" {
 
 variable "azs" {
   description = "Availability zones"
-  default     = ["us-west-2a", "us-west-2b"]
+  default     = ["eu-north-1a", "eu-north-1b"]
 }
+
