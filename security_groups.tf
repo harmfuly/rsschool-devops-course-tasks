@@ -4,7 +4,7 @@ resource "aws_security_group" "inter_subnet_sg" {
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
-    cidr_blocks = [aws_vpc.my_vpc.cidr_block]
+    cidr_blocks = [var.vpc_cidr]
   }
   egress {
     from_port   = 0
