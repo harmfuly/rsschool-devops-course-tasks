@@ -20,6 +20,7 @@ variable "azs" {
 }
 
 variable "github_repo" {
-  description = "GitHub repository for which the OIDC token will be used"
+  description = "GitHub repository in the format 'owner/repo'"
   type        = string
+  default     = "harmfuly/rsschool-devops-course-tasks"
 }
