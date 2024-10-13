@@ -18,3 +18,7 @@ variable "azs" {
   default     = ["eu-north-1a", "eu-north-1b"]
 }
 
+variable "github_repo" {
+  description = "GitHub repository for which the OIDC token will be used"
+  type        = string
+}

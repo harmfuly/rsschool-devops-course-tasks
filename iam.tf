@@ -1,6 +1,6 @@
 provider "aws" {
   alias  = "secondary"
-  region = "us-west-2"
+  region = "eu-north-1"
 }
 
 resource "aws_iam_openid_connect_provider" "github_oidc" {
