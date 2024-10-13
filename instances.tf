@@ -5,7 +5,7 @@ resource "aws_subnet" "my_subnet" {
 }
 
 resource "aws_instance" "my_instance" {
-  ami           = "ami-0591e1c6a24d08458"
+  ami           = "0591e1c6a24d08458"
   instance_type = "t2.micro"
   subnet_id     = aws_subnet.my_subnet.id
   tags = {
