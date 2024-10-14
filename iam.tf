@@ -3,14 +3,8 @@ provider "aws" {
   region = "us-east-1"
 }
 
-resource "aws_iam_openid_connect_provider" "github_oidc" {
-  client_id_list  = ["sts.amazonaws.com"]
-  thumbprint_list = ["74F3A68F16524F15424927704C9506F55A9316BD"]
-  url             = "https://token.actions.githubusercontent.com"
-}
-
 resource "aws_iam_role" "GithubActionsRole" {
-  name = "GithubActionsRole"
+  name = "GithubActionsRole-${var.environment}"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -18,7 +12,7 @@ resource "aws_iam_role" "GithubActionsRole" {
       {
         Effect = "Allow"
         Principal = {
-          Federated = aws_iam_openid_connect_provider.github_oidc.arn
+          Federated = "token.actions.githubusercontent.com"
         }
         Action = "sts:AssumeRoleWithWebIdentity"
         Condition = {

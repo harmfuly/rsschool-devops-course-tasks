@@ -16,11 +16,17 @@ variable "private_subnet_cidrs" {
 variable "azs" {
   description = "List of availability zones to use"
   type        = list(string)
-  default     = ["eu-north-1a", "eu-north-1b", "eu-north-1c"]
+  default     = ["us-east-1a", "us-east-1b", "us-east-1c"]
 }
 
 variable "github_repo" {
   description = "GitHub repository in the format 'owner/repo'"
   type        = string
   default     = "harmfuly/rsschool-devops-course-tasks"
+}
+
+variable "environment" {
+  description = "The environment for the resources (e.g., dev, staging, prod)"
+  type        = string
+  default     = "dev"
 }

@@ -7,10 +7,10 @@ terraform {
   }
 
   backend "s3" {
-    bucket         = "rss-task-bucket"
+    bucket         = "rsstask2bucket"
     key            = "state/terraform.tfstate"
     region         = "us-east-1"
     encrypt        = true
-    dynamodb_table = "rss-table"
+    dynamodb_table = "rss-task2-table"
   }
 }

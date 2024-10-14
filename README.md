@@ -14,8 +14,8 @@
 
 ### 1. `main.tf`
 The `main.tf` file contains the complete configuration for:
-- **Terraform Backend:** Defines the S3 bucket (`rss-task-bucket`) for storing the Terraform state and DynamoDB table (`rss-table`) for state locking.
-- **AWS Provider:** Sets up the AWS provider to work in the `eu-north-1` region.
+- **Terraform Backend:** Defines the S3 bucket (`rss-task2-bucket`) for storing the Terraform state and DynamoDB table (`rss-task2-table`) for state locking.
+- **AWS Provider:** Sets up the AWS provider to work in the `us-east-1` region.
 - **IAM Role and Policy:** Creates an `aws_iam_role` (`GithubActionsRole`) with a Trust Policy for GitHub Actions and attaches a policy (`GithubActionsPolicy`) that allows permissions for various AWS services like EC2, S3, IAM, VPC, etc.
 
 ### 2. `.github/workflows/terraform-deployment.yml`
