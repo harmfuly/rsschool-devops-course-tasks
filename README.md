@@ -6,8 +6,6 @@
 - [Cluster Setup](#cluster-setup)
 - [Deployment](#deployment)
 - [Verification](#verification)
-- [Monitoring Setup](#monitoring-setup)
-- [Conclusion](#conclusion)
 
 ## Introduction
 This document outlines the steps taken to set up a Kubernetes cluster using k3s and deploy a simple workload. The workload consists of a deployment that runs HashiCorp Terraform.
