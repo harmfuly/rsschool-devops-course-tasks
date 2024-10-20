@@ -1,18 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: terraform-deployment
+  name: nginx-deployment
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: terraform
+      app: nginx
   template:
     metadata:
       labels:
-        app: terraform
+        app: nginx
     spec:
       containers:
-        - name: terraform
-          image: hashicorp/terraform:1.3.9
-          command: [ "sleep", "infinity" ]
+        - name: nginx
+          image: nginx:latest
+          ports:
+            - containerPort: 80
