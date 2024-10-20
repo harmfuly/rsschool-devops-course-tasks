@@ -1,57 +1,72 @@
-# Terraform Infrastructure Setup with GitHub Actions
+# Kubernetes Cluster Setup and Deployment
 
-## File Structure
+## Table of Contents
+- [Introduction](#introduction)
+- [Prerequisites](#prerequisites)
+- [Cluster Setup](#cluster-setup)
+- [Deployment](#deployment)
+- [Verification](#verification)
+- [Monitoring Setup](#monitoring-setup)
+- [Conclusion](#conclusion)
 
-<pre>
-├── main.tf # Main configuration for Terraform
-├── .github/
-     │ └── workflows/ │ 
-              └── terraform-deployment.yml # GitHub Actions workflow for Terraform
-</pre>
+## Introduction
+This document outlines the steps taken to set up a Kubernetes cluster using k3s and deploy a simple workload. The workload consists of a deployment that runs HashiCorp Terraform.
+
+## Prerequisites
+- A machine running Ubuntu with WSL installed.
+- Basic understanding of Kubernetes and Terraform.
+- Installed tools: `kubectl`, `k3s`, and `Terraform`.
+
+## Cluster Setup
+1. **Install k3s**:
+   Run the following command to install k3s:
+   ```bash
+   curl -sL https://get.k3s.io | sh -
+
+2. **Verify k3s Installation:** Check the status of the nodes:
+   ```bash
+   kubectl get nodes
+
+3. **Configure kubectl:** If you encounter permission errors, modify the kubeconfig permissions:
+   ```bash
+   sudo k3s kubectl config view --raw > /etc/rancher/k3s/k3s.yaml
+   sudo chmod 644 /etc/rancher/k3s/k3s.yaml
 
 
-## Directory & File Overview
+## Deployment
 
-### 1. `main.tf`
-The `main.tf` file contains the complete configuration for:
-- **Terraform Backend:** Defines the S3 bucket (`rss-task2-bucket`) for storing the Terraform state and DynamoDB table (`rss-task2-table`) for state locking.
-- **AWS Provider:** Sets up the AWS provider to work in the `us-east-1` region.
-- **IAM Role and Policy:** Creates an `aws_iam_role` (`GithubActionsRole`) with a Trust Policy for GitHub Actions and attaches a policy (`GithubActionsPolicy`) that allows permissions for various AWS services like EC2, S3, IAM, VPC, etc.
+1. **Create a Deployment YAML File:** Create a file named terraform-k8s-deployment.yml with the following content:
+   ```yaml
+   apiVersion: apps/v1
+   kind: Deployment
+   metadata:
+   name: terraform-deployment
+   spec:
+   replicas: 1
+   selector:
+      matchLabels:
+         app: terraform
+   template:
+      metadata:
+         labels:
+         app: terraform
+      spec:
+         containers:
+         - name: terraform
+            image: hashicorp/terraform:1.3.9
+            command: ["sleep", "infinity"]
 
-### 2. `.github/workflows/terraform-deployment.yml`
-The GitHub Actions workflow file (`terraform-deployment.yml`) automates the deployment process. It will be triggered by pull requests or pushes to the default branch and includes three main jobs:
-- **terraform-check:** Checks formatting with `terraform fmt`.
-- **terraform-plan:** Plans the infrastructure changes with `terraform plan`.
-- **terraform-apply:** Deploys changes with `terraform apply`.
+2. **Apply the Deployment:** Run the following command to deploy the application:
+   ```bash
+   kubectl apply -f terraform-k8s-deployment.yml
+   
 
-## GitHub Secrets
+### Verification
 
-To connect GitHub Actions with AWS, you need to set up the following secrets in your GitHub repository:
+1. **Check Deployments:** Verify that the deployment is running:
+   ```bash
+   kubectl get deployments
 
-- **`AWS_ACCESS_KEY_ID`**: Your AWS Access Key ID
-- **`AWS_SECRET_ACCESS_KEY`**: Your AWS Secret Access Key
-
-These secrets enable the workflow to assume the IAM role (`GithubActionsRole`) and deploy the infrastructure.
-
-## How to Use
-
-1. **Install Required Software:**
-   - [Terraform CLI](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli)
-   - [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2.html)
-
-2. **Configure AWS Account:**
-   - Set up your AWS credentials and configure MFA for enhanced security.
-   - Ensure the S3 bucket and DynamoDB table for state management exist (`rss-task-bucket` and `rss-table`).
-
-3. **Deploy the Infrastructure:**
-   - Push your code to the GitHub repository.
-   - The GitHub Actions workflow (`terraform.yml`) will automatically run:
-     - **Format Check:** Ensures Terraform code is formatted correctly.
-     - **Plan:** Previews the changes.
-     - **Apply:** Deploys the infrastructure if the plan is correct.
-
-4. **Verify:**
-   - Check that the Terraform state is stored in your S3 bucket.
-   - Validate that the `GithubActionsRole` is created with the correct policies.
-
-This README provides the basic steps and structure for setting up and using your Terraform infrastructure with GitHub Actions.
+2. **Check Pods:** Ensure that the pods are running:
+   ```bash
+   kubectl get pods
